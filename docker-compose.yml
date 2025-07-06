@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: odoo18-postgres
+    env_file: 
+      - .odoo-secrets.env  #Tendremos todas las variables en este fichero
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=${DB_USER:-odoo}  
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-odoo}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - odoo_network
+    restart: unless-stopped
+
+  odoo:
+    build: .
+    container_name: odoo18
+    depends_on:
+      - postgres
+    env_file:
+      - .odoo-secrets.env  #Mismo fichero de variables que el contenedor de psql
+    environment:
+      - HOST=postgres
+      - USER=${DB_USER:-odoo}               
+      - PASSWORD=${DB_PASSWORD:-odoo}
+      - INITIAL_ADMIN_PASSWORD=${MASTER_PASSWORD:-IMSMasterPassword}
+      - ODOO_ADMIN_EMAIL=${ADMIN_EMAIL:-admin@ims.dev}
+      - ODOO_ADMIN_PASSWORD=${ADMIN_PASSWORD:-IMSAdminPassword}
+      - DB_NAME=${DB_NAME:-ims}
+      - MODULES_TO_INSTALL=IMS
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - odoo_extra_addons:/mnt/extra-addons
+      - ./config:/etc/odoo
+      - ./entrypoint.sh:/entrypoint.sh
+    ports:
+      - "8069:8069"
+      #- "5678:5678"  #Puerto que usa debugpy
+    networks:
+      - odoo_network
+    restart: unless-stopped
+    command: /entrypoint.sh odoo
+
+volumes:
+  postgres_data:
+  odoo_data:
+  odoo_extra_addons:
+
+networks:
+  odoo_network:
+    driver: bridge
