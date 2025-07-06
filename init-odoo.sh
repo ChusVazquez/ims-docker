@@ -1,4 +1,5 @@
 #!/bin/bash
+SECRETS_FILE="./.odoo-secrets.env"
 
 echo ">>> Configuración interactiva de IMS en Docker <<<"
 echo "Indroducir el valor o dejar valor por defecto entre []"
@@ -13,7 +14,7 @@ read -sp "Password administrador [IMSAdminPassword]: " ADMIN_PASSWORD
 echo
 
 #Guardar valores en .odoo-secrets.env
-cat > .odoo-secrets.env <<EOF
+cat > "$SECRETS_FILE" <<EOF
 DB_USER=${DB_USER:-odoo}
 DB_PASSWORD=${DB_PASSWORD:-odoo}
 MASTER_PASSWORD=${MASTER_PASSWORD:-IMSMasterPassword}
@@ -21,7 +22,8 @@ ADMIN_EMAIL=${ADMIN_EMAIL:-admin@ims.dev}
 ADMIN_PASSWORD=${ADMIN_PASSWORD:-IMSAdminPassword}
 EOF
 
-echo "Configuración guardada en .odoo-secrets.env"
+echo "Configuración guardada en: $SECRETS_FILE"
+
 chmod 600 .odoo-secrets.env  #Restricción de permisos en el secrets
 
 #Levantar contenedores
