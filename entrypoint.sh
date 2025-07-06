@@ -2,8 +2,8 @@
 set -e
 
 # Cargar variables desde el archivo de secrets
-if [ -f "/etc/odoo/odoo-secrets.env" ]; then
-    source /etc/odoo/odoo-secrets.env
+if [ -f "/etc/odoo/.odoo-secrets.env" ]; then
+    source /etc/odoo/.odoo-secrets.env
 else
     echo "ERROR: El archivo de configuración no existe."
     echo "Ejecuta en tu HOST: ./init-odoo.sh"
