@@ -24,7 +24,7 @@ EOF
 
 echo "Configuración guardada en: $SECRETS_FILE"
 
-chmod 600 .odoo-secrets.env  #Restricción de permisos en el secrets
+chmod 644 .odoo-secrets.env  #Restricción de permisos en el secrets
 
 #Levantar contenedores
 docker compose up -d
