@@ -13,7 +13,7 @@ fi
 INIT_FLAG="/var/lib/odoo/.initialized"
 
 if [ ! -f "$INIT_FLAG" ]; then
-    echo ">>> Configuración inicial de Odoo <<<"
+    echo "Configurando IMS en Odoo..."
     
     # odoo --init=${MODULES_TO_INSTALL:-IMS} \
     #      --without-demo=all \
@@ -23,10 +23,14 @@ if [ ! -f "$INIT_FLAG" ]; then
     #      --email="${ADMIN_EMAIL}" \
     #      --password="${ADMIN_PASSWORD}"
 
-    odoo -d ${DB_NAME:-ims} \
-         --init=${MODULES_TO_INSTALL:-ims} \
-         --without-demo=all \        
-         --stop-after-init
+    # odoo -d ${DB_NAME:-ims} \
+    #      --init=${MODULES_TO_INSTALL:-ims} \
+    #      --without-demo=all \        
+    #      --stop-after-init
+
+    echo "odoo -d ims --stop-after-init -i ims -c /etc/odoo/odoo.conf --without-demo=WITHOUT_DEMO"
+
+    odoo -d ims --stop-after-init -i ims -c /etc/odoo/odoo.conf --without-demo=WITHOUT_DEMO 
 
     touch "$INIT_FLAG"
 fi
