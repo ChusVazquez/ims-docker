@@ -15,13 +15,18 @@ INIT_FLAG="/var/lib/odoo/.initialized"
 if [ ! -f "$INIT_FLAG" ]; then
     echo ">>> Configuración inicial de Odoo <<<"
     
-    odoo --init=${MODULES_TO_INSTALL:-IMS} \
-         --without-demo=all \
-         --stop-after-init \
-         --database=${DB_NAME:-odoo_main} \
-         --admin-passwd="${MASTER_PASSWORD}" \
-         --email="${ADMIN_EMAIL}" \
-         --password="${ADMIN_PASSWORD}"
+    # odoo --init=${MODULES_TO_INSTALL:-IMS} \
+    #      --without-demo=all \
+    #      --stop-after-init \
+    #      --database=${DB_NAME:-odoo_main} \
+    #      --admin-passwd="${MASTER_PASSWORD}" \
+    #      --email="${ADMIN_EMAIL}" \
+    #      --password="${ADMIN_PASSWORD}"
+
+    odoo -d ${DB_NAME:-ims} \
+         --init=${MODULES_TO_INSTALL:-ims} \
+         --without-demo=all \        
+         --stop-after-init
 
     touch "$INIT_FLAG"
 fi
