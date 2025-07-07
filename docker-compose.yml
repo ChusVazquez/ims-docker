@@ -16,7 +16,7 @@ services:
       - odoo_network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -40,7 +40,7 @@ services:
     volumes:
       - odoo_data:/var/lib/odoo
       - odoo_extra_addons:/mnt/extra-addons
-      #- ./config:/etc/odoo
+      - ./config:/etc/odoo
       - ./entrypoint.sh:/entrypoint.sh
       - ./.odoo-secrets.env:/etc/odoo/.odoo-secrets.env:ro
     ports:
