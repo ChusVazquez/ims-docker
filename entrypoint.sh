@@ -30,7 +30,7 @@ if [ ! -f "$INIT_FLAG" ]; then
 
     # echo "odoo -d ims --stop-after-init -i ims -c /etc/odoo/odoo.conf --without-demo=WITHOUT_DEMO"
 
-    odoo --db-host="postgres" -d ims --stop-after-init -i IMS -c /etc/odoo/odoo.conf --without-demo=WITHOUT_DEMO 
+    odoo --db_host="postgres" -d ims --stop-after-init -i IMS -c /etc/odoo/odoo.conf --without-demo=WITHOUT_DEMO 
 
     touch "$INIT_FLAG"
 fi
