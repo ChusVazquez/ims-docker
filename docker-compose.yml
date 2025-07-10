@@ -8,6 +8,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=${DB_USER:-odoo}  
       - POSTGRES_PASSWORD=${DB_PASSWORD:-odoo}
+      - POSTGRES_INITDB_ARGS=--auth-host=trust
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -16,10 +17,12 @@ services:
       - odoo_network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      test: 
+        - "CMD-SHELL"
+        - "pg_isready -U odoo -d postgres -h localhost"
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   odoo:
     build: .
