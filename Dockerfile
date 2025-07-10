@@ -14,6 +14,7 @@ RUN apt-get update && \
         xfonts-base \
         fontconfig \
         wget \
+        netcat \
         && \
     #Paquetes .deb
     wget http://es.archive.ubuntu.com/ubuntu/pool/universe/x/xfonts-75dpi/xfonts-75dpi_1.0.4+nmu1.1_all.deb -O /tmp/xfonts-75dpi.deb && \

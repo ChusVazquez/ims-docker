@@ -10,6 +10,13 @@ else
     exit 1
 fi
 
+#Comprobar que psql está listo (usando netcat, investigar si hay un método mejor)
+echo "Esperando a PostgreSQL en $HOST:5432..."
+while ! nc -z $HOST 5432; do
+  sleep 0.5
+done
+echo "PostgreSQL está listo!"
+
 INIT_FLAG="/var/lib/odoo/.initialized"
 
 if [ ! -f "$INIT_FLAG" ]; then
